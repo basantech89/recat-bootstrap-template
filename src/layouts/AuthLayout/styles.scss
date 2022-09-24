@@ -1,0 +1,10 @@
+.auth-layout {
+  display: flex;
+  height: 100vh;
+
+  &-img {
+    background: url(https://source.unsplash.com/random/?people,dark,black,night) no-repeat;
+    min-width: 50%;
+    background-size: cover;
+  }
+}
