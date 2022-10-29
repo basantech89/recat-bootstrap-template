@@ -9,17 +9,17 @@ describe('Login', () => {
     const { container } = render(<Login />)
     expect(container).toMatchInlineSnapshot(`
       <div>
-        <div
-          class="login"
+        <section
+          class="auth"
         >
           <form
-            class="login-form"
+            class="auth-form"
           >
             <h6>
               Hello there, Sign in to continue
             </h6>
             <div
-              class="login-form-group"
+              class="auth-form-group"
             >
               <label
                 class="form-label"
@@ -40,7 +40,7 @@ describe('Login', () => {
               </div>
             </div>
             <div
-              class="login-form-group"
+              class="auth-form-group"
             >
               <label
                 class="form-label"
@@ -90,12 +90,12 @@ describe('Login', () => {
             </button>
           </form>
           <button
-            class="btn btn-link"
+            class="link-primary btn btn-link"
             type="button"
           >
             Signup
           </button>
-        </div>
+        </section>
       </div>
     `)
   })

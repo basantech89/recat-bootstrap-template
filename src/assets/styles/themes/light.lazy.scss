@@ -1,0 +1,61 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+$colors: (
+  'primary': #112b3c,
+  'light': #efefef,
+  'secondary': #dbe2ef
+);
+
+$enable-gradients: true;
+$theme-colors: map-merge($theme-colors, $colors);
+
+@import '~bootstrap/scss/maps';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/utilities';
+@import '~bootstrap/scss/root';
+@import '~bootstrap/scss/reboot';
+@import '~bootstrap/scss/grid';
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/navbar';
+@import '~bootstrap/scss/spinners';
+@import '~bootstrap/scss/helpers';
+@import '~bootstrap/scss/utilities/api';
+// @import "~bootstrap/scss/bootstrap";
+
+body.light-theme {
+  $body-color: #dbe2ef;
+  --#{$variable-prefix}body-bg: #{$body-color};
+  --#{$variable-prefix}body-bg-rgb: #{to-rgb($body-color)};
+
+  .navbar {
+    background: linear-gradient(to right, rgb(242, 112, 156), rgb(255, 148, 114));
+  }
+
+  .auth-layout {
+    &-img {
+      background: url(https://source.unsplash.com/random/?people,beach,day) no-repeat;
+    }
+  }
+
+  .auth {
+    .auth-form {
+      &-group {
+        label {
+          color: #9699a9;
+        }
+
+        a {
+          color: #3c415e;
+        }
+      }
+
+      h6 {
+        color: #3c415e;
+      }
+    }
+  }
+}

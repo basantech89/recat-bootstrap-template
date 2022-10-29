@@ -1,12 +1,10 @@
 import Button from 'components/Button'
 import SmartForm, { SmartButton, SmartInput } from 'components/Form'
 
-import './styles.scss'
-
 import toastState from '../../atoms/toasts'
 
 import { routes } from 'constants/routes'
-import React from 'react'
+import React, { useTransition } from 'react'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
@@ -30,29 +28,30 @@ const Login = () => {
   const toggleHidePass = () => setHidePass(!hidePass)
 
   const login = async (user: LoginForm) => {
-    const { data, success } = await authenticateUser(user)
+    const { success, data } = await authenticateUser(user)
     if (success) {
-      navigate(routes.users)
+      setItem('token', data.token)
+      navigate(routes.tasks)
     } else {
-      addToast(data.error, 'danger')
+      addToast(data, 'danger')
     }
   }
 
-  const goToSignup = () => navigate(routes.signup)
+  const goToSignup = () => navigate(routes.signUp)
 
   return (
-    <div className="login">
+    <section className="auth">
       <SmartForm<LoginForm>
         mode="onChange"
         onSubmit={login}
         defaultValues={defaultValues}
-        className="login-form"
+        className="auth-form"
       >
         <h6>Hello there, Sign in to continue</h6>
         <SmartInput
           label="Email"
           name="email"
-          className="login-form-group"
+          className="auth-form-group"
           rules={{
             required: 'Email is required.',
             pattern: {
@@ -65,7 +64,7 @@ const Login = () => {
           label="Password"
           name="password"
           type={hidePass ? 'password' : 'text'}
-          className="login-form-group"
+          className="auth-form-group"
           append={
             <Button
               onClick={toggleHidePass}
@@ -81,10 +80,10 @@ const Login = () => {
         />
         <SmartButton variant="primary" type="submit" label="Next" />
       </SmartForm>
-      <Button variant="link" onClick={goToSignup}>
+      <Button variant="link" linkVariant="primary" onClick={goToSignup}>
         Signup
       </Button>
-    </div>
+    </section>
   )
 }
 

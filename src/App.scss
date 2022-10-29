@@ -1,18 +1,16 @@
-@import "~bootstrap/scss/bootstrap";
-@import "assets/styles/theme";
+@import 'assets/styles/common';
+@import 'assets/styles/components';
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-  sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 h1,
@@ -20,76 +18,7 @@ p {
   font-family: Lato;
 }
 
-.app {
-  position: relative;
-  height: 100vh;
-}
-
-button + button {
-  margin-left: 20px;
-}
-
-.btn:disabled {
-  pointer-events: auto;
-  cursor: not-allowed;
-}
-
-.error {
-  color: red;
-  padding-top: 4px;
-  font-size: 13px;
-}
-
-.append {
-  position: relative;
-}
-
-.icon-btn {
-  display: inline-block;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  box-shadow: none;
-  padding: 5px;
-  line-height: 16px;
-
-  &:hover,
-  &:active,
-  &:focus,
-  &:active:focus {
-    background-color: transparent;
-    outline: none;
-    box-shadow: none;
-  }
-}
-
-.error-container {
-  height: 100%;
+#root {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  .err-common-img {
-    height: 70%;
-    width: 53%;
-    min-height: 500px;
-    background-size: contain;
-    border-radius: 2px;
-  }
-
-  .error-img {
-    background: url('https://i.postimg.cc/DfpxLX5N/8030434-3828547.jpg') no-repeat;
-  }
-
-  .no-match-img {
-    background: url('https://i.postimg.cc/cJMvGfr4/5060708-2634442.jpg') no-repeat;
-  }
-
-  .error-msg {
-    padding-top: 50px;
-    font-weight: 500;
-    font-size: 24px;
-    font-family: 'Delius Unicase', cursive;
-  }
 }

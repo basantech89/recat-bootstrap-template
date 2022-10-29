@@ -1,0 +1,64 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+$colors: (
+  'primary': #ff0844,
+  'secondary': #112d4e
+);
+
+$enable-gradients: true;
+$theme-colors: map-merge($theme-colors, $colors);
+
+@import '~bootstrap/scss/maps';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/utilities';
+@import '~bootstrap/scss/root';
+@import '~bootstrap/scss/grid';
+@import '~bootstrap/scss/reboot';
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/navbar';
+@import '~bootstrap/scss/spinners';
+@import '~bootstrap/scss/helpers';
+@import '~bootstrap/scss/utilities/api';
+// @import "~bootstrap/scss/bootstrap";
+
+body.dark-theme {
+  $body-color: #112b3c;
+  --#{$variable-prefix}body-bg: #{$body-color};
+  --#{$variable-prefix}body-bg-rgb: #{to-rgb($body-color)};
+
+  .navbar {
+    background: linear-gradient(to right, #ec250d 0, #fd5d93);
+  }
+
+  .auth-layout {
+    &-img {
+      background: url(https://source.unsplash.com/random/?dark,black,night) no-repeat;
+    }
+  }
+
+  .auth {
+    .auth-form {
+      &-group {
+        label {
+          color: #dbe2ef;
+        }
+
+        a {
+          color: #dbe2ef;
+        }
+      }
+
+      h6 {
+        color: #dbe2ef;
+      }
+    }
+  }
+
+  .form-control {
+    background-color: #dbe2ef;
+  }
+}

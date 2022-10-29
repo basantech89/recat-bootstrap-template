@@ -1,3 +1,5 @@
+import Button from 'components/Button'
+
 import toastState from '../../atoms/toasts'
 import SmartForm, { SmartButton, SmartCheckbox, SmartInput } from '../../components/Form'
 import { links } from '../../constants/links'
@@ -7,13 +9,13 @@ import { registerUser } from '../../utils/api'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import React from 'react'
-import { Button, Row } from 'react-bootstrap'
+import { Row } from 'react-bootstrap'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { object, string } from 'yup'
 
-export declare interface SignupForm {
+export declare interface SignUpForm {
   firstName: string
   lastName: string
   email: string
@@ -22,7 +24,7 @@ export declare interface SignupForm {
   acceptTerms: boolean
 }
 
-const defaultValues: SignupForm = {
+const defaultValues: SignUpForm = {
   firstName: '',
   lastName: '',
   email: '',
@@ -65,7 +67,7 @@ const schema = object().shape({
     })
 })
 
-const Signup = () => {
+const SignUp = () => {
   const navigate = useNavigate()
 
   const [toasts, setToasts] = useRecoilState(toastState)
@@ -79,39 +81,39 @@ const Signup = () => {
 
   const goToLogin = () => navigate(routes.login)
 
-  const signupUser = async (formData: SignupForm) => {
-    const data = await registerUser(formData)
-    if (data.success) {
+  const signUpUser = async (formData: SignUpForm) => {
+    const { success, data } = await registerUser(formData)
+    if (success) {
       goToLogin()
-    } else if (data.error) {
-      addToast(data.error, 'danger')
+    } else {
+      addToast(data, 'danger')
     }
   }
 
   return (
-    <div className="login">
-      <SmartForm<SignupForm>
+    <section className="auth">
+      <SmartForm<SignUpForm>
         mode="onChange"
         defaultValues={defaultValues}
-        onSubmit={signupUser}
+        onSubmit={signUpUser}
         resolver={yupResolver(schema)}
-        className="login-form"
+        className="auth-form"
       >
         <Row>
           <SmartInput
             label="First Name"
             name="firstName"
-            className="login-form-group col-6"
+            className="auth-form-group col-6"
             rules={{
               required: 'First Name is required.'
             }}
           />
-          <SmartInput label="Last Name" name="lastName" className="login-form-group col-6" />
+          <SmartInput label="Last Name" name="lastName" className="auth-form-group col-6" />
         </Row>
         <SmartInput
           label="Email"
           name="email"
-          className="login-form-group"
+          className="auth-form-group"
           rules={{
             required: 'Email is required.',
             pattern: {
@@ -124,7 +126,7 @@ const Signup = () => {
           label="Password"
           name="password"
           type={hidePass ? 'password' : 'text'}
-          className="login-form-group"
+          className="auth-form-group"
           triggers={['confirmPassword']}
           append={
             <Button onClick={toggleHidePass} className="icon-btn input-icon-btn">
@@ -136,7 +138,7 @@ const Signup = () => {
           label="Confirm Password"
           name="confirmPassword"
           type={hideConfirmPass ? 'password' : 'text'}
-          className="login-form-group"
+          className="auth-form-group"
           append={
             <Button onClick={toggleHideConfirmPass} className="icon-btn input-icon-btn">
               {hideConfirmPass ? <EyeSlashFill /> : <EyeFill />}
@@ -145,7 +147,7 @@ const Signup = () => {
         />
         <SmartCheckbox
           name="acceptTerms"
-          className="login-form-group"
+          className="auth-form-group"
           label={
             <div>
               By creating or logging into account, you are agreeing with our{' '}
@@ -159,11 +161,11 @@ const Signup = () => {
         />
         <SmartButton variant="primary" type="submit" label="Next" />
       </SmartForm>
-      <Button variant="link" onClick={goToLogin}>
+      <Button variant="link" linkVariant="primary" onClick={goToLogin}>
         Login
       </Button>
-    </div>
+    </section>
   )
 }
 
-export default Signup
+export default SignUp

@@ -18,19 +18,22 @@
   "rules": {
     "strict": ["error", "never"],
     "@typescript-eslint/ban-ts-comment": "off",
-    "simple-import-sort/imports": ["error", {
-      "groups": [
-        // Internal packages.
-        ["^(@|components)(/.*|$)"],
-        // Side effect imports.
-        ["^\\u0000"],
-        // Parent imports. Put `..` last.
-        ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-        // Other relative imports. Put same-folder imports and `.` last.
-        ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"]
-      ]
-    }],
-    "simple-import-sort/exports": "error",
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // Internal packages.
+          ["^(@|components)(/.*|$)"],
+          // Side effect imports.
+          ["^\\u0000"],
+          // Parent imports. Put `..` last.
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error"
   },
   "env": {
     "browser": true,

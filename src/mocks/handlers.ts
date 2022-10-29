@@ -5,7 +5,7 @@ export const handlers = [
   rest.post(constructUrl('auth/login'), (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.delay(2000),
+      ctx.delay(200),
       ctx.json({
         success: true,
         message: 'User signed in successfully.',
@@ -26,6 +26,29 @@ export const handlers = [
       ctx.json({
         success: true,
         message: 'User successfully signed up.'
+      })
+    )
+  }),
+  rest.get(constructUrl('todos'), (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.delay(100),
+      ctx.json({
+        success: true,
+        data: [
+          {
+            todo_id: '1234',
+            title: 'Task 1',
+            description: 'Description for task 1',
+            done: false
+          },
+          {
+            todo_id: '2345',
+            title: 'Task 2',
+            description: 'Description for task 2',
+            done: true
+          }
+        ]
       })
     )
   })

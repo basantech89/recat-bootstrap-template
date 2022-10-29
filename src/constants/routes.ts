@@ -3,5 +3,6 @@ export const routes = {
   users: '/users',
   error: '/error',
   login: '/login',
-  signup: '/signup'
+  signUp: '/signup',
+  tasks: '/tasks'
 }

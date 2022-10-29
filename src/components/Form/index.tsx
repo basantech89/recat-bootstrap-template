@@ -1,9 +1,11 @@
+import './styles.scss'
+
 import { callAll, omit } from '../../utils'
 import Button from '../Button'
 
 import classNames from 'classnames'
 import React from 'react'
-import { ButtonProps, Form } from 'react-bootstrap'
+import { ButtonProps, Form, FormControlProps, FormProps } from 'react-bootstrap'
 import {
   FieldValues,
   FormProvider,
@@ -17,7 +19,7 @@ import {
 
 declare interface SmartFormProps<TFormValues extends FieldValues>
   extends UseFormProps<TFormValues> {
-  onSubmit: SubmitHandler<TFormValues>
+  onSubmit?: SubmitHandler<TFormValues>
   children?: React.ReactNode
   className?: string
 }
@@ -31,16 +33,12 @@ export default function SmartForm<TFormValues extends FieldValues>({
   const methods = useForm(rest)
   const { handleSubmit } = methods
 
-  return (
-    <FormProvider
-      {...methods}
-      children={
-        <Form onSubmit={handleSubmit(onSubmit)} className={classNames(className)}>
-          {children}
-        </Form>
-      }
-    />
-  )
+  const formProps: FormProps = { className: classNames(className) }
+  if (onSubmit) {
+    formProps.onSubmit = handleSubmit(onSubmit)
+  }
+
+  return <FormProvider {...methods} children={<Form {...formProps}>{children}</Form>} />
 }
 
 declare type Trigger<TFieldValues> = TFieldValues[keyof TFieldValues]
@@ -54,7 +52,8 @@ declare interface SmartFormChildProps<TFieldValues extends FieldValues>
 }
 
 declare interface InputProps<TFieldValues extends FieldValues>
-  extends SmartFormChildProps<TFieldValues> {
+  extends SmartFormChildProps<TFieldValues>,
+    Omit<FormControlProps, 'defaultValue'> {
   append?: React.ReactNode
 }
 
@@ -99,7 +98,7 @@ export const SmartInput = <TFieldValues extends FieldValues = FieldValues>({
           id={rest.name}
           onChange={callAll(field.onChange, onChange)}
         />
-        {append && append}
+        {append}
       </div>
       {error && <div className="error">{error}</div>}
     </Form.Group>

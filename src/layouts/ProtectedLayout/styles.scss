@@ -1,19 +1,5 @@
 .protected-layout {
-  height: 100vh;
-  padding: 50px;
-
-  .navbar {
-    justify-content: space-between;
-
-    img {
-      max-height: 50px;
-    }
-  }
-
-  .logout-btn {
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+  & > * {
+    padding: 40px;
   }
 }

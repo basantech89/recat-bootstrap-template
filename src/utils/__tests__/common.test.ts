@@ -1,3 +1,5 @@
+import { camelCase, isObject, snakeCase, toCamelCaseKeys, toSnakeCaseKeys } from '..'
+
 import { describe, expect, test } from '@jest/globals'
 import { regex } from 'constants/regex'
 
@@ -32,5 +34,41 @@ describe('REGEX', () => {
     expect(
       password.test('lowerUPPER#@123467890lowerUPPER#@123467890lowerUPPER#@123467890')
     ).toStrictEqual(false)
+  })
+})
+
+describe('utils', () => {
+  test('isObject', () => {
+    expect(isObject('a string')).toStrictEqual(false)
+    expect(isObject(123)).toStrictEqual(false)
+    expect(isObject([1, 2, 3])).toStrictEqual(false)
+    expect(isObject(() => 123)).toStrictEqual(false)
+    expect(isObject({ a: 1, b: 2 })).toStrictEqual(true)
+  })
+
+  test('toSnakeCaseKeys', () => {
+    expect(snakeCase('snakeCase')).toStrictEqual('snake_case')
+    expect(snakeCase('snakeCase Keys')).toStrictEqual('snake_case _keys')
+    expect(snakeCase('snake case')).toStrictEqual('snake case')
+    expect(snakeCase('snake_case')).toStrictEqual('snake_case')
+    expect(
+      toSnakeCaseKeys({ userDetails: { userName: { firstName: 'JohnJane', lastName: 'Smith' } } })
+    ).toEqual({
+      user_details: { user_name: { first_name: 'JohnJane', last_name: 'Smith' } }
+    })
+  })
+
+  test('toCamelCaseKeys', () => {
+    expect(camelCase('snake_case')).toStrictEqual('snakeCase')
+    expect(camelCase('snake_case keys')).toStrictEqual('snakeCaseKeys')
+    expect(camelCase('snake case')).toStrictEqual('snakeCase')
+    expect(camelCase('snakeCase')).toStrictEqual('snakecase')
+    expect(
+      toCamelCaseKeys({
+        user_details: { user_name: { first_name: 'JohnJane', last_name: 'Smith' } }
+      })
+    ).toEqual({
+      userDetails: { userName: { firstName: 'JohnJane', lastName: 'Smith' } }
+    })
   })
 })

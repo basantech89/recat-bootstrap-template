@@ -16,10 +16,10 @@ const AuthLayout = () => {
   }, [])
 
   return (
-    <div className="auth-layout">
-      <div className="auth-layout-img" />
+    <main className="auth-layout">
+      <section className="auth-layout-img" />
       <Outlet />
-    </div>
+    </main>
   )
 }
 

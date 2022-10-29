@@ -1,7 +1,10 @@
+document.documentElement.setAttribute('darkMode', '')
+
 import './App.scss'
 
 import Toast from './components/Toast'
 import AppRoutes from './containers/AppRoutes'
+import Header from './containers/Header'
 import store from './redux-store'
 import reportWebVitals from './reportWebVitals'
 
@@ -13,17 +16,22 @@ import { RecoilRoot } from 'recoil'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 
-// if (process.env.NODE_ENV === 'development') {
-//   import('./mocks/browser').then(({ worker }) => {
-//     worker.start()
-//   })
-// }
+const startWorker = async () => {
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { worker } = require('./mocks/browser')
+    worker.start()
+  }
+}
+
+startWorker()
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <RecoilRoot>
         <BrowserRouter>
+          <Header />
           <AppRoutes />
           <Toast />
         </BrowserRouter>

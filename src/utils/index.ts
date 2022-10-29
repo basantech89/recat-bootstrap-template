@@ -1,4 +1,3 @@
-import { logout } from './api'
 import { get, post, remove } from './client'
 
 export const getItem = (key: string) => localStorage.getItem(key)
@@ -7,7 +6,12 @@ export const setItem = (key: string, value: string) => localStorage.setItem(key,
 export const removeItem = (key: string) => localStorage.removeItem(key)
 
 export const logoutUser = async () => {
-  await logout()
+  removeItem('token')
+}
+
+export const authenticate = () => {
+  const token = getItem('token')
+  return !!token
 }
 
 export const registerForUserInactivitySession = () => {
@@ -52,12 +56,12 @@ export const isObject = function (obj: unknown) {
   return obj === Object(obj) && !Array.isArray(obj) && typeof obj !== 'function'
 }
 
-interface CallBack<Params extends any[]> {
-  (...args: Params): void
+interface CallBack<Params extends unknown[]> {
+  (...args: Params): unknown
 }
 
 export const callAll =
-  <Params extends any[]>(...fns: Array<CallBack<Params> | undefined>) =>
+  <Params extends unknown[]>(...fns: Array<CallBack<Params> | undefined>) =>
   (...args: Params) =>
     fns.forEach(fn => typeof fn === 'function' && fn(...args))
 
@@ -67,26 +71,41 @@ type CamelToSnake<T extends string> = string extends T
   ? `${C0 extends Lowercase<C0> ? '' : '_'}${Lowercase<C0>}${CamelToSnake<R>}`
   : ''
 
-export type CamelKeysToSnake<T> = {
+export type CamelKeysToSnake<T extends Record<string, any>> = {
   [K in keyof T as CamelToSnake<Extract<K, string>>]: T[K]
 }
 
-const snakeCase = (str: string) => str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
+export const snakeCase = (str: string) =>
+  str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
 
-export function toSnakeCaseKeys<T extends Record<string, any>>(obj: T): CamelKeysToSnake<T> {
-  const newO: Record<string, any> = {}
-  let origKey, newKey, value
-  for (origKey in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, origKey)) {
-      newKey = snakeCase(origKey)
-      value = obj[origKey]
-      if (value instanceof Array || (!!value && value.constructor === Object)) {
+export function toSnakeCaseKeys<T extends Record<string, any>>(o: T): CamelKeysToSnake<T>
+export function toSnakeCaseKeys<T extends Record<string, any>[]>(o: T): CamelKeysToSnake<T>[]
+export function toSnakeCaseKeys<T extends Record<string, any> | Record<string, any>[]>(
+  o: T
+): CamelKeysToSnake<T> | CamelKeysToSnake<T>[] {
+  if (o instanceof Array) {
+    return o.map(function (value) {
+      if (typeof value === 'object') {
         value = toSnakeCaseKeys(value)
       }
-      newO[newKey] = value
+      return value as CamelKeysToSnake<T>
+    })
+  } else {
+    const newO: Record<string, any> = {}
+
+    let origKey, newKey, value
+    for (origKey in o) {
+      if (Object.prototype.hasOwnProperty.call(o, origKey)) {
+        newKey = snakeCase(origKey)
+        value = o[origKey]
+        if (value instanceof Array || (!!value && value.constructor === Object)) {
+          value = toSnakeCaseKeys(value)
+        }
+        newO[newKey] = value
+      }
     }
+    return newO as CamelKeysToSnake<T>
   }
-  return newO as CamelKeysToSnake<T>
 }
 
 type SnakeToCamelCase<S extends string> = S extends `${infer T}_${infer U}`
@@ -97,23 +116,37 @@ export type SnakeKeysToCamel<T extends Record<string, any>> = {
   [K in keyof T as SnakeToCamelCase<Extract<K, string>>]: T[K]
 }
 
-const camelCase = (str: string) =>
+export const camelCase = (str: string) =>
   str.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase())
 
-export function toCamelCaseKeys<T extends Record<string, any>>(o: T): SnakeKeysToCamel<T> {
-  const newO: Record<string, any> = {}
-  let origKey, newKey, value
-  for (origKey in o) {
-    if (Object.prototype.hasOwnProperty.call(o, origKey)) {
-      newKey = camelCase(origKey)
-      value = o[origKey]
-      if (value instanceof Array || (value !== null && value.constructor === Object)) {
+export function toCamelCaseKeys<T extends Record<string, any>>(o: T): SnakeKeysToCamel<T>
+export function toCamelCaseKeys<T extends Record<string, any>[]>(o: T): SnakeKeysToCamel<T>[]
+export function toCamelCaseKeys<T extends Record<string, any> | Record<string, any>[]>(
+  o: T
+): SnakeKeysToCamel<T>[] | SnakeKeysToCamel<T> {
+  if (o instanceof Array) {
+    return o.map(function (value) {
+      if (typeof value === 'object') {
         value = toCamelCaseKeys(value)
       }
-      newO[newKey] = value
+      return value as SnakeKeysToCamel<T>
+    })
+  } else {
+    const newO: Record<string, any> = {}
+
+    let origKey, newKey, value
+    for (origKey in o) {
+      if (Object.prototype.hasOwnProperty.call(o, origKey)) {
+        newKey = camelCase(origKey)
+        value = o[origKey]
+        if (value instanceof Array || (value !== null && value.constructor === Object)) {
+          value = toCamelCaseKeys(value)
+        }
+        newO[newKey] = value
+      }
     }
+    return newO as SnakeKeysToCamel<T>
   }
-  return newO as SnakeKeysToCamel<T>
 }
 
 export { get, post, remove }

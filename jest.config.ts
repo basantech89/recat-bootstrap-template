@@ -2,26 +2,23 @@ import { Config } from '@jest/types'
 
 const config: Config.InitialOptions = {
   ...require('./src/test-utils/jest-common.ts'),
-  collectCoverageFrom: ['**/src/**/*.{ts|tsx}'],
+  // collectCoverageFrom: ['**/*.{ts|tsx}'],
+  coveragePathIgnorePatterns: ['./src/mocks/', './src/test-utils/'],
   coverageThreshold: {
     global: {
-      statements: 55,
-      branches: 25,
-      functions: 80,
+      statements: 60,
+      branches: 36,
+      functions: 40,
       lines: 55
     },
-    './src/utils/*.(ts|tsx)': {
-      statements: 100,
-      branches: 100,
-      functions: 100,
-      lines: 100
+    './src/utils/': {
+      statements: 45,
+      branches: 35,
+      functions: 25,
+      lines: 50
     }
   },
-  projects: [
-    '<rootDir>/test-utils/jest.client.ts',
-    '<rootDir>/test-utils/jest.utils.ts',
-    '<rootDir>/test-utils/jest.lint.ts'
-  ]
+  projects: ['<rootDir>/test-utils/jest.client.ts', '<rootDir>/test-utils/jest.utils.ts']
 }
 
 module.exports = config

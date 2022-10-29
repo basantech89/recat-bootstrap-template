@@ -1,6 +1,4 @@
-import { toCamelCaseKeys, toSnakeCaseKeys } from '.'
-
-import { RequestInit } from '@mswjs/interceptors'
+import { getItem, toCamelCaseKeys, toSnakeCaseKeys } from '.'
 
 export const constructUrl = (url: string) => {
   if (process.env.REACT_APP_API_BASE) {
@@ -9,62 +7,76 @@ export const constructUrl = (url: string) => {
   return url
 }
 
-export const get = async <T>(url: string) => {
-  try {
-    const response = await fetch(constructUrl(url), {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include'
-    })
-    const row = await response.json()
-    const { success, data, error } = toCamelCaseKeys(row)
-    if (error) {
-      return { success, error }
+const getHeaders = (authenticate: boolean) => {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json'
+  }
+
+  if (authenticate) {
+    const token = getItem('token')
+    if (token) {
+      headers.Authorization = `Bearer ${token}`
     }
-    return { data, success }
+  }
+
+  return headers
+}
+
+declare interface APICallOptions<D> {
+  method: RequestInit['method']
+  data?: D
+  authenticate: boolean
+}
+
+type Success<R> = {
+  success: true
+  data: R
+}
+
+type Failed = {
+  success: false
+  data: string
+}
+
+async function apiCall<R, D = undefined>(
+  url: string,
+  options: APICallOptions<D>
+): Promise<Success<R> | Failed> {
+  try {
+    const headers = getHeaders(options.authenticate)
+
+    const fetchOptions: RequestInit = {
+      method: options.method,
+      headers
+    }
+
+    if (options.data) {
+      const snakeCaseData = toSnakeCaseKeys(options.data)
+      fetchOptions.body = JSON.stringify(snakeCaseData)
+    }
+
+    const response = await fetch(constructUrl(url), fetchOptions)
+    const rawData = await response.json()
+    const { success, data, error } = toCamelCaseKeys(rawData)
+
+    if (error) {
+      return { success: false, data: error }
+    }
+
+    return { success, data }
   } catch (e) {
-    return { success: false }
+    throw new Error(e as string)
   }
 }
 
-export const post = async <k extends Record<string, any>>(url: string, uiData: k) => {
-  try {
-    const snakeCaseData = toSnakeCaseKeys(uiData)
-    const response = await fetch(constructUrl(url), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(snakeCaseData),
-      credentials: 'include'
-    })
-    const row = await response.json()
-    const { success, data, error } = toCamelCaseKeys(row)
-    if (error) {
-      return { success, error }
-    }
-    return { data, success }
-  } catch (e) {
-    return { success: false, error: e }
-  }
-}
+export const get = <R>(url: string, authenticate = true) =>
+  apiCall<R>(url, { method: 'GET', authenticate })
 
-export const remove = async <k extends Record<string, any>>(url: string, uiData?: k) => {
-  try {
-    const snakeCaseData = uiData ? toSnakeCaseKeys(uiData) : null
+export const post = <R, D>(url: string, data: D, authenticate = true) =>
+  apiCall<R, D>(url, { method: 'POST', data, authenticate })
 
-    const response = await fetch(constructUrl(url), {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(snakeCaseData)
-    })
+export const patch = <R, D>(url: string, data: D, authenticate = true) =>
+  apiCall<R, D>(url, { method: 'PATCH', data, authenticate })
 
-    const row = await response.json()
-    const { success, data, error } = toCamelCaseKeys(row)
-    if (error) {
-      return { success, error }
-    }
-    return { data, success }
-  } catch (e) {
-    return { success: false, error: e }
-  }
-}
+export const remove = <R>(url: string, authenticate = true) =>
+  apiCall<R>(url, { method: 'DELETE', authenticate })
