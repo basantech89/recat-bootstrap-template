@@ -1,9 +1,8 @@
 import './styles.scss'
 
-import { useGetUsersQuery } from '../../redux-store/usersSlice'
-
 import React from 'react'
 import { Table } from 'react-bootstrap'
+import { useGetUsersQuery } from 'redux-store/usersSlice'
 
 const Users = () => {
   const { data, isLoading } = useGetUsersQuery(null)

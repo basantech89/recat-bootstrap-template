@@ -1,10 +1,9 @@
 import Button from 'components/Button'
 import SmartForm, { SmartButton, SmartInput } from 'components/Form'
 
-import toastState from '../../atoms/toasts'
-
+import toastState from 'atoms/toasts'
 import { routes } from 'constants/routes'
-import React, { useTransition } from 'react'
+import React from 'react'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
@@ -31,7 +30,7 @@ const Login = () => {
     const { success, data } = await authenticateUser(user)
     if (success) {
       setItem('token', data.token)
-      navigate(routes.tasks)
+      navigate(routes.todos)
     } else {
       addToast(data, 'danger')
     }

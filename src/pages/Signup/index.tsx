@@ -1,18 +1,17 @@
 import Button from 'components/Button'
-
-import toastState from '../../atoms/toasts'
-import SmartForm, { SmartButton, SmartCheckbox, SmartInput } from '../../components/Form'
-import { links } from '../../constants/links'
-import { regex } from '../../constants/regex'
-import { routes } from '../../constants/routes'
-import { registerUser } from '../../utils/api'
+import SmartForm, { SmartButton, SmartCheckbox, SmartInput } from 'components/Form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
+import toastState from 'atoms/toasts'
+import { links } from 'constants/links'
+import { regex } from 'constants/regex'
+import { routes } from 'constants/routes'
 import React from 'react'
 import { Row } from 'react-bootstrap'
 import { EyeFill, EyeSlashFill } from 'react-bootstrap-icons'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
+import { registerUser } from 'utils/api'
 import { object, string } from 'yup'
 
 export declare interface SignUpForm {

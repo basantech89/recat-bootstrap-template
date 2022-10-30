@@ -1,18 +1,17 @@
-document.documentElement.setAttribute('darkMode', '')
+import Toast from 'components/Toast'
 
 import './App.scss'
 
-import Toast from './components/Toast'
-import AppRoutes from './containers/AppRoutes'
-import Header from './containers/Header'
-import store from './redux-store'
 import reportWebVitals from './reportWebVitals'
 
+import AppRoutes from 'containers/AppRoutes'
+import Header from 'containers/Header'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
+import store from 'redux-store'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 

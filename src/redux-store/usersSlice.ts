@@ -1,6 +1,5 @@
-import { getItem, toCamelCaseKeys } from '../utils'
-
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { getItem, toCamelCaseKeys } from 'utils'
 
 export declare interface User {
   firstName: string

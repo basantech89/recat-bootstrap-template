@@ -4,5 +4,5 @@ export const routes = {
   error: '/error',
   login: '/login',
   signUp: '/signup',
-  tasks: '/tasks'
+  todos: '/todos'
 }

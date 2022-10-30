@@ -1,15 +1,14 @@
-import { routes } from '../constants/routes'
-import AuthLayout from '../layouts/AuthLayout'
-import ErrorLayout from '../layouts/ErrorLayout'
-import ProtectedLayout from '../layouts/ProtectedLayout'
-
+import { routes } from 'constants/routes'
+import AuthLayout from 'layouts/AuthLayout'
+import ErrorLayout from 'layouts/ErrorLayout'
+import ProtectedLayout from 'layouts/ProtectedLayout'
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
 const Login = React.lazy(() => import('../pages/Login'))
 const SignUp = React.lazy(() => import('../pages/SignUp'))
 const Users = React.lazy(() => import('../pages/Users'))
-const Tasks = React.lazy(() => import('../pages/Tasks'))
+const Todos = React.lazy(() => import('../pages/Todos'))
 
 const Error = React.lazy(() => import('./Error'))
 const NoMatch = React.lazy(() => import('./NoMatch'))
@@ -29,7 +28,7 @@ const AppRoutes = () => {
         </Route>
         <Route element={<ProtectedLayout />}>
           <Route path={routes.users} element={<Users />} />
-          <Route path={routes.tasks} element={<Tasks />} />
+          <Route path={routes.todos} element={<Todos />} />
         </Route>
       </Routes>
     </React.Suspense>

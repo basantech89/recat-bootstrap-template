@@ -1,9 +1,8 @@
 import './styles.scss'
 
-import { authenticate } from '../../utils'
-
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { authenticate } from 'utils'
 
 const ProtectedLayout = () => {
   const navigate = useNavigate()

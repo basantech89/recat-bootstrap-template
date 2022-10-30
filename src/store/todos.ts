@@ -3,8 +3,7 @@ import {
   fetchTodos,
   removeTodo as apiRemoveTodo,
   updateTodo as apiUpdateTodo
-} from '../utils/api'
-
+} from 'utils/api'
 import create from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 

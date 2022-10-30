@@ -1,16 +1,15 @@
-import './styles.scss'
-
-import useTodos from '../../store/todos'
-
 import React from 'react'
 import { Form, InputGroup } from 'react-bootstrap'
+import { useAppDispatch, useAppSelector } from 'redux-store'
+import { addTodo, addTodos, selectTodos } from 'redux-store/todosSlice'
 
-const Tasks = () => {
-  const { todos, addTodos, addTodo, updateTodo } = useTodos()
+const Todos = () => {
+  const dispatch = useAppDispatch()
+  const { todos, status } = useAppSelector(selectTodos)
   const [newTodo, setNewTodo] = React.useState({ title: '', description: '', done: false })
 
   React.useEffect(() => {
-    addTodos()
+    dispatch(addTodos())
   }, [])
 
   const addNewTodo: React.ChangeEventHandler<HTMLInputElement> = event => {
@@ -36,7 +35,7 @@ const Tasks = () => {
   }
 
   return (
-    <Form className="tasks">
+    <Form>
       {Object.values(todos).map((todo, index) => (
         <InputGroup key={todo.todoId}>
           <Form.Control name={`title-${index}`} onChange={addNewTodo} defaultValue={todo.title} />
@@ -61,4 +60,4 @@ const Tasks = () => {
   )
 }
 
-export default Tasks
+export default Todos

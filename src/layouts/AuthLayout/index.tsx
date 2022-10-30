@@ -1,9 +1,8 @@
 import './styles.scss'
 
-import { getItem } from '../../utils'
-
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { getItem } from 'utils'
 
 const AuthLayout = () => {
   const navigate = useNavigate()

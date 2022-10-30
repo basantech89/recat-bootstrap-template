@@ -29,6 +29,29 @@ export const handlers = [
       })
     )
   }),
+  rest.get(constructUrl('users'), (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.delay(200),
+      ctx.json({
+        success: true,
+        data: [
+          {
+            first_name: 'John',
+            last_name: 'Smith',
+            email: 'jsmith@example.com',
+            user_id: '1234'
+          },
+          {
+            first_name: 'Jay',
+            last_name: 'Jaden',
+            email: 'jay@example.com',
+            user_id: '2345'
+          }
+        ]
+      })
+    )
+  }),
   rest.get(constructUrl('todos'), (req, res, ctx) => {
     return res(
       ctx.status(200),

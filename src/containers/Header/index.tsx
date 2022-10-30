@@ -1,14 +1,13 @@
 import './styles.scss'
 
-import logo from '../../assets/logos/create-app-logo.png'
-import darkTheme from '../../assets/styles/themes/dark.lazy.scss'
-import lightTheme from '../../assets/styles/themes/light.lazy.scss'
-import { routes } from '../../constants/routes'
-import { logoutUser } from '../../utils'
-
+import logo from 'assets/logos/create-app-logo.png'
+import darkTheme from 'assets/styles/themes/dark.lazy.scss'
+import lightTheme from 'assets/styles/themes/light.lazy.scss'
+import { routes } from 'constants/routes'
 import React from 'react'
 import { Button, Nav, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { logoutUser } from 'utils'
 
 const Header = () => {
   const [isLightTheme, setIsLightTheme] = React.useState(true)

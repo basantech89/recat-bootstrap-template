@@ -28,12 +28,12 @@ declare interface APICallOptions<D> {
   authenticate: boolean
 }
 
-type Success<R> = {
+export type Success<R> = {
   success: true
   data: R
 }
 
-type Failed = {
+export type Failed = {
   success: false
   data: string
 }

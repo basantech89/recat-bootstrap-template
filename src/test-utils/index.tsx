@@ -1,10 +1,9 @@
-import store from '../redux-store'
-
 import { render as rtlRender, RenderOptions } from '@testing-library/react'
 import React, { FC, ReactElement } from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
+import store from 'redux-store'
 
 const render = (
   ui: ReactElement,

@@ -1,21 +1,13 @@
-import { Todo, TodoState, UITodo } from '../store/todos'
-
 import { patch } from './client'
 
 import { LoginForm } from 'pages/Login'
 import { SignUpForm } from 'pages/SignUp'
+import { User } from 'redux-store/usersSlice'
+import { Todo, TodoState, UITodo } from 'store/todos'
 import { get, post, remove } from 'utils'
 
-declare interface User {
-  token: string
-  firstName: string
-  lastName: string
-  email: string
-  id: string
-}
-
 export const authenticateUser = (user: LoginForm) =>
-  post<User, LoginForm>('auth/login', user, false)
+  post<User & { token: string }, LoginForm>('auth/login', user, false)
 
 export const registerUser = (user: SignUpForm) =>
   post<never, SignUpForm>('auth/register', user, false)
